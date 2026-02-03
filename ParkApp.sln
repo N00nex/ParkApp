@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36623.8 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkAPI", "ParkAPI\ParkAPI.csproj", "{B4359247-DD62-4F98-9255-6D93C60BC895}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiParkFinder", "MauiParkFinder\MauiParkFinder.csproj", "{6DAC1AC5-639A-47B8-B357-482C806F1F71}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "ParkAppContainer", "ParkAppContainer.dcproj", "{EF8FAA17-AE90-41EF-A078-76AF2A5F3711}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B4359247-DD62-4F98-9255-6D93C60BC895}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4359247-DD62-4F98-9255-6D93C60BC895}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4359247-DD62-4F98-9255-6D93C60BC895}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4359247-DD62-4F98-9255-6D93C60BC895}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DAC1AC5-639A-47B8-B357-482C806F1F71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DAC1AC5-639A-47B8-B357-482C806F1F71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DAC1AC5-639A-47B8-B357-482C806F1F71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DAC1AC5-639A-47B8-B357-482C806F1F71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF8FAA17-AE90-41EF-A078-76AF2A5F3711}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF8FAA17-AE90-41EF-A078-76AF2A5F3711}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF8FAA17-AE90-41EF-A078-76AF2A5F3711}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF8FAA17-AE90-41EF-A078-76AF2A5F3711}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E961E986-3C6F-4135-9E09-2815F8F0A8FA}
+	EndGlobalSection
+EndGlobal

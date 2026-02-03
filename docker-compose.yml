@@ -1,0 +1,14 @@
+services:
+  ParkAPI:
+    image: ${DOCKER_REGISTRY-}parkapi
+    build:
+      context: .
+      dockerfile: ParkAPI/Dockerfile
+  mssql:
+    image: ${DOCKER_REGISTRY-}parkmssql
+    build:
+      context: .
+      dockerfile: ./Dockerfile  
+
+
+

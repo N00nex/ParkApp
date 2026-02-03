@@ -1,0 +1,13 @@
+services:
+  ParkAPI:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=;http://+:80
+    ports:
+      - "60002:80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+  mssql:
+    ports:
+      - "1433:1433"

@@ -1,0 +1,35 @@
+--Create Database ParkFinder;
+
+--Use ParkFinder;
+
+CREATE TABLE PreisKlasse (
+    Id UNIQUEIDENTIFIER PRIMARY KEY,
+    StartPreis DECIMAL(18, 2) NOT NULL,
+    MaximalPreis DECIMAL(18, 2) NOT NULL,
+    PreisProStunde DECIMAL(18, 2) NOT NULL
+);
+
+
+CREATE TABLE ParkHaus (
+    Id UNIQUEIDENTIFIER PRIMARY KEY,
+    ParkHausName VARCHAR(80) NOT NULL,
+    Distanz INT NOT NULL,
+    VerfuegbarePlaetze INT NOT NULL,
+    MapsLink NVARCHAR(255),
+    PreisID UNIQUEIDENTIFIER NOT NULL,
+
+    CONSTRAINT FK_ParkHaus_PreisKlasse FOREIGN KEY (PreisID)
+        REFERENCES PreisKlasse(Id)
+);
+
+
+INSERT INTO PreisKlasse (Id, StartPreis, MaximalPreis, PreisProStunde)
+VALUES 
+    ('f47ac10b-58cc-4372-a567-0e02b2c3d479', 2.50, 25.00, 1.50),
+    ('f47ac10b-58cc-4372-a567-0e02b2000000', 3.00, 30.00, 2.00);
+
+
+INSERT INTO ParkHaus (ParkHausName, Distanz, VerfuegbarePlaetze, MapsLink, PreisID)
+VALUES 
+    ('City Parking Nord', 450, 120, 'http://maps.google.com/1', 'f47ac10b-58cc-4372-a567-0e02b2c3d479'),
+    ('Basel Beispiel2', 300, 40, 'http://maps.google.com/2', 'f47ac10b-58cc-4372-a567-0e02b2000000');
