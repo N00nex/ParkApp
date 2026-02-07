@@ -8,14 +8,14 @@ namespace MauiParkFinder.Services
     {
         private readonly HttpClient _httpClient;
         
-        // Use 10.0.2.2 for Android and match your Docker port 60002
+        
         private static string BaseUrl = DeviceInfo.Platform == DevicePlatform.Android 
             ? "http://10.0.2.2:60002/api/" 
             : "http://localhost:60002/api/";
 
         public ParkFinderService()
         {
-            // Use the native Android handler for better compatibility with 10.0.2.2
+            
             var handler = new HttpClientHandler
             {
                 ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
@@ -24,7 +24,7 @@ namespace MauiParkFinder.Services
             _httpClient = new HttpClient(handler)
             {
                 BaseAddress = new Uri(BaseUrl),
-                Timeout = TimeSpan.FromSeconds(10) // Prevents the app from hanging if the API is slow
+                Timeout = TimeSpan.FromSeconds(10) 
             };
         }
 
@@ -46,21 +46,5 @@ namespace MauiParkFinder.Services
             return new List<ParkHaus>();
         }
 
-        public async Task<List<PreisKlasse>> GetPreisKlasseAsync()
-        {
-            try
-            {
-                var response = await _httpClient.GetAsync("PreisKlasse");
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadFromJsonAsync<List<PreisKlasse>>();
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"API ERROR: {ex.Message}");
-            }
-            return new List<PreisKlasse>();
-        }
     }
 }

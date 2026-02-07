@@ -442,14 +442,28 @@
 
     <Style x:Key="MainPageParkHausInfoBox" TargetType="Border">
         <Setter Property="Stroke" Value="Black" />
+        <Setter Property="BackgroundColor" Value="#101015"/>
         <Setter Property="StrokeThickness" Value="1" />
-        <Setter Property="Padding" Value="15" />
+        <Setter Property="HorizontalOptions" Value="Fill" />
+        <Setter Property="Padding" Value="20" />
         <Setter Property="Margin" Value="10" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 10" />
+
     </Style>
 
-    <Style x:Key="ParkTitleStyle" TargetType="Label">
-        <Setter Property="FontSize" Value="28" />
+    <Style x:Key="ParkHausNameStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="5, 0, 5, 5" />
         <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="TextColor" Value="Black" />
+        <Setter Property="TextColor" Value="WhiteSmoke" />
+        
+    </Style>
+
+    <Style x:Key="ParkHausInfosStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="TextColor" Value="WhiteSmoke"/>
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="5, 0, 5, 5" />
     </Style>
 </ResourceDictionary>

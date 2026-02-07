@@ -7,7 +7,7 @@
     Title="MauiParkFinder">
 
     <ShellContent
-        Title="Home"
+        Title="ParkFinder"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 

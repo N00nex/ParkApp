@@ -21,6 +21,12 @@ modelBuilder.EntitySet<PreisKlasse>("PreisKlasse");
 builder.Services.AddControllers().AddOData(options =>
     options.Select().Filter().Expand().Count().OrderBy()
     .AddRouteComponents("", modelBuilder.GetEdmModel()));
+// Provisorisch da
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddEndpointsApiExplorer();

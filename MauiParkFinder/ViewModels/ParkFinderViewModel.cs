@@ -1,17 +1,19 @@
-﻿using System.Collections.ObjectModel;
-using MauiParkFinder.Services;
-using CommunityToolkit.Mvvm.ComponentModel; //Für ObservableObject
+﻿using CommunityToolkit.Mvvm.ComponentModel; //Für ObservableObject
 using CommunityToolkit.Mvvm.Input;
-using MauiParkFinder.Models; //Für RelayCommand führt dazu dass weniger Boilerplate Code geschrieben wird (Empfehlung von KI)
+//Für RelayCommand führt dazu dass weniger Boilerplate Code geschrieben wird (Empfehlung von KI)
+using MauiParkFinder.Models;
+using MauiParkFinder.Services;
+using System.Collections.ObjectModel;
+using MauiParkFinder.Helpers;
 
 namespace MauiParkFinder.ViewModels;
 public partial class ParkFinderViewModel : ObservableObject
 {
     private readonly ParkFinderService _service;
 
-    
+
     public ObservableCollection<ParkHaus> ParkHaeuser { get; } = new();
-    public ObservableCollection<PreisKlasse> PreisKlassen { get; } = new();
+    
 
     public ParkFinderViewModel(ParkFinderService service)
     {
@@ -21,8 +23,7 @@ public partial class ParkFinderViewModel : ObservableObject
     [RelayCommand]
     public async Task LoadDataAsync()
     {
-        var items = await _service.GetParkHaeuserAsync();
-        ParkHaeuser.Clear();
-        foreach (var item in items) ParkHaeuser.Add(item);
+        await ParkHaeuser.LoadAsync(_service.GetParkHaeuserAsync);
+        
     }
 }

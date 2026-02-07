@@ -9,6 +9,9 @@
 
         public String MapsLink { get; set; }
 
-        public Guid PreisID { get; set; }
+        public Guid PreisKlasseID { get; set; }
+        
+        
+        public PreisKlasse PreisKlasse { get; set; }
     }
 }
