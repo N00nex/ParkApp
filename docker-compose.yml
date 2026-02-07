@@ -1,5 +1,7 @@
 services:
   ParkAPI:
+    depends_on:
+       - mssql
     image: ${DOCKER_REGISTRY-}parkapi
     build:
       context: .

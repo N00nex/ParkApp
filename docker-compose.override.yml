@@ -2,7 +2,7 @@ services:
   ParkAPI:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=;http://+:80
+      - ASPNETCORE_URLS=http://+:0.0.0.0:80
     ports:
       - "60002:80"
     volumes:
