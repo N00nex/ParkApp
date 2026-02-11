@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:MauiParkFinder.ViewModels"
+             x:Class="MauiParkFinder.Views.ParkDetailPage"
+             x:DataType="viewModels:ParkDetailsViewModel"
+             Title="Parkhaus Details">
+
+    <ScrollView Padding="20">
+            <VerticalStackLayout>
+
+                <Grid ColumnDefinitions="Auto, *" Margin="0,0,0,20">
+                    <ImageButton Source="back_arrow.png" HorizontalOptions="Start" HeightRequest="30" />
+                    <Label Grid.Column="1" 
+                       Text="{Binding TargetParkHaus.ParkHausName}" 
+                       FontSize="28" FontAttributes="Bold" 
+                       HorizontalOptions="Center" />
+                </Grid>
+
+            <Border Style="{StaticResource DetailSektionBorder}">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Offen" 
+                    Style="{StaticResource DetailLabelNormal}" />
+
+                    <Label Text="Öffnungszeiten" Style="{StaticResource DetailLabelNormal}"/>
+
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Montag-Freitag" 
+                   Style="{StaticResource DetailLabelNormal}" />
+                        <Label Grid.Column="1" Text="{Binding MoBisFrDisplay}" Style="{StaticResource DetailLabelNormal}" />
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Samstag-Sonntag" 
+                   Style="{StaticResource DetailLabelNormal}" />
+                        <Label Grid.Column="1" Text="{Binding SaBisSoDisplay}" Style="{StaticResource DetailLabelNormal}" />
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*, Auto" Margin="0,10,0,0">
+                        <Label Text="Freie Parkplätze:" 
+                            Style="{StaticResource DetailLabelNormal}" />
+                        <Label Grid.Column="1" Text="{Binding SelectedParkHaus.VerfuegbarePlaetze}" Style="{StaticResource DetailLabelNormal}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+                
+            <Border Style="{StaticResource DetailSektionBorder}">
+                    <VerticalStackLayout Spacing="10">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Label Text="Einfahrtstarif" Style="{StaticResource DetailLabelNormal}" />
+                            <Label Grid.Column="1" Text="{Binding TargetParkHaus.PreisKlasse.StartPreis, StringFormat='{0:N2}.- CHF'}" Style="{StaticResource DetailLabelNormal}" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Label Text="Stundentarif" Style="{StaticResource DetailLabelNormal}" />
+                            <Label Grid.Column="1" Text="{Binding TargetParkHaus.PreisKlasse.PreisProStunde, StringFormat='{0:N2}.- CHF'}" Style="{StaticResource DetailLabelNormal}" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Label Text="Tagespauschale" Style="{StaticResource DetailLabelNormal}" />
+                            <Label Grid.Column="1" Text="{Binding TargetParkHaus.PreisKlasse.MaximalPreis, StringFormat='{0:N2}.- CHF'}" Style="{StaticResource DetailLabelNormal}" />
+                        </Grid>
+                    </VerticalStackLayout>
+             </Border>
+
+            <Border Style="{StaticResource DetailSektionBorder}">
+                <VerticalStackLayout Spacing="10">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Stadt" Style="{StaticResource DetailLabelNormal}" />
+                        <Label Grid.Column="1" Text="{Binding TargetParkHaus.Address.City, StringFormat='{0:N2}'}" Style="{StaticResource DetailLabelNormal}" />
+                    </Grid>
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Postleitzahl" Style="{StaticResource DetailLabelNormal}" />
+                        <Label Grid.Column="1" Text="{Binding TargetParkHaus.Address.PostalCode, StringFormat='{0:N2}'}" Style="{StaticResource DetailLabelNormal}" />
+                    </Grid>
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Strasse" Style="{StaticResource DetailLabelNormal}" />
+                        <Label Grid.Column="1" Text="{Binding TargetParkHaus.Address.Street, StringFormat='{0:N2}'}" Style="{StaticResource DetailLabelNormal}" />
+                    </Grid>
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Hausnummer" Style="{StaticResource DetailLabelNormal}" />
+                        <Label Grid.Column="1" Text="{Binding TargetParkHaus.Address.StreetNumber, StringFormat='{0:N2}'}" Style="{StaticResource DetailLabelNormal}" />
+                    </Grid>
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Distanz" Style="{StaticResource DetailLabelNormal}" />
+                        <Label Grid.Column="1" Text="{Binding TargetParkHaus.Distanz, StringFormat='{0:N0} Meter'}" Style="{StaticResource DetailLabelNormal}" />
+                    </Grid>
+
+                    <Grid>
+                        <Button Text="Zur Karte" 
+                            Command="{Binding OpenMapsCommand}"
+                            CommandParameter="{Binding TargetParkHaus.MapsLink}"
+                            Style="{StaticResource MapButtonStyle}" 
+                            HorizontalOptions="Center" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+            
+        </ScrollView>
+    
+    
+    </ContentPage>

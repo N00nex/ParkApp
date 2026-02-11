@@ -10,8 +10,12 @@
         public String MapsLink { get; set; }
 
         public Guid PreisKlasseID { get; set; }
-        
-        
+
+        public Guid AddressID { get; set; }
+
+        public List<BetriebsZeit> BetriebsZeit { get; set; } = new();
         public PreisKlasse PreisKlasse { get; set; }
+        public Address Address { get; set; }
     }
 }
+

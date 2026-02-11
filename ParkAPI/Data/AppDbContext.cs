@@ -10,5 +10,9 @@ namespace ParkAPI.Data
 
         public DbSet<ParkHaus> ParkHaus { get; set; } = null!;
         public DbSet<PreisKlasse> PreisKlasse { get; set; } = null!;
+        public DbSet<BetriebsZeit> BetriebsZeit { get; set; } = null!;
+        public DbSet<Address> Address { get; set; } = null!;
+
+
     }
 }

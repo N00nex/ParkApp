@@ -457,7 +457,6 @@
         <Setter Property="Padding" Value="5, 0, 5, 5" />
         <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="TextColor" Value="WhiteSmoke" />
-        
     </Style>
 
     <Style x:Key="ParkHausInfosStyle" TargetType="Label">
@@ -466,4 +465,91 @@
         <Setter Property="Margin" Value="5" />
         <Setter Property="Padding" Value="5, 0, 5, 5" />
     </Style>
+
+    <Style x:Key="FilterBorder" TargetType="Border">
+        <Setter Property="Stroke" Value="Black" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 5" />
+    </Style>
+
+    <Style x:Key="FilterLabel" TargetType="Label">
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+
+    <Style x:Key="FilterVStackLayoutStyle" TargetType="VerticalStackLayout">
+        <Setter Property="Padding" Value="15" />
+        <Setter Property="Spacing" Value="15" />
+        <Setter Property="BackgroundColor" Value="#F0F0F0" />
+    </Style>
+
+    <Style x:Key="FilterHStackLayoutStyle" TargetType="HorizontalStackLayout">
+        <Setter Property="Spacing" Value="10" />
+    </Style>
+
+    <Style x:Key="FilterLabelStyle" TargetType="Label">
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="TextColor" Value="Black" />
+    </Style>
+
+    <Style x:Key="DistanzEntryStyle" TargetType="Entry">
+       
+    </Style>
+
+    <Style x:Key="DistanzSliderStyle" TargetType="Slider">
+        <Setter Property="ThumbColor" Value="Black" />
+    </Style>
+
+    
+    <Style x:Key="DetailSektionBorder" TargetType="Border">
+        <Setter Property="Stroke" Value="Black" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Padding" Value="15" />
+        <Setter Property="Margin" Value="0,0,0,15" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 0" />
+    </Style>
+
+    <Style x:Key="DetailLabelDick" TargetType="Label">
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="TextColor" Value="Black" />
+    </Style>
+
+    <Style x:Key="DetailLabelNormal" TargetType="Label">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="TextColor" Value="Black"/>
+        <Setter Property="Margin" Value="0,5,0,0"/>
+    </Style>
+
+    <Style x:Key="MapButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="#2E2E64" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="15,10" />
+        <Setter Property="Margin" Value="0,15,0,0" />
+    </Style>
+
+    <Style x:Key="SortBorder" TargetType="Border">
+        <Setter Property="Stroke" Value="Black" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 5" />
+    </Style>
+
+    <Style x:Key="SortContainerStyle" TargetType="HorizontalStackLayout">
+        <Setter Property="Spacing" Value="10" />
+    </Style>
+
+    <Style x:Key="SortLabelStyle" TargetType="Label">
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+    </Style>
+
+    <Style x:Key="SortPickerStyle" TargetType="Picker">
+        <Setter Property="WidthRequest" Value="150" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+
 </ResourceDictionary>

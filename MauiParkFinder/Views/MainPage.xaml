@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Models="clr-namespace:MauiParkFinder.Models"
+             xmlns:viewModels="clr-namespace:MauiParkFinder.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="MauiParkFinder.Views.MainPage"
+             x:DataType="viewModels:ParkFinderViewModel"
+             x:Name="thisPage">
+
+    <Grid RowDefinitions="Auto, *">
+
+        
+        <VerticalStackLayout Margin="10" Spacing="10">
+            
+            <toolkit:Expander>
+                <toolkit:Expander.Header>
+                    <Border Style="{StaticResource FilterBorder}">
+                        <Label Text="Filter" FontAttributes="Bold" />
+                    </Border>
+                </toolkit:Expander.Header>
+
+                <VerticalStackLayout Style="{StaticResource FilterVStackLayoutStyle}">
+                    <HorizontalStackLayout Style="{StaticResource FilterHStackLayoutStyle}">
+                        <CheckBox IsChecked="{Binding NurFreiePlätze}" />
+                        <Label Style="{StaticResource FilterLabelStyle}" Text="Nur Parkplätze mit freien Plätzen anzeigen"  />
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Style="{StaticResource FilterHStackLayoutStyle}">
+                        <CheckBox />
+                        <Label Style="{StaticResource FilterLabelStyle}" Text="Nur Offene Parkmglichkeiten Anzeigen"  />
+                    </HorizontalStackLayout>
+
+                    <Label Text="{Binding MaxErlaubteDistanzInMeter, StringFormat='Max. Distanz: {0:F0} m'}" />
+                    <Grid ColumnDefinitions="*, 80">
+                        <Slider Grid.Column="0" 
+                                Maximum="{Binding MaxDistance}" 
+                                Minimum="{Binding MinDistance}" 
+                                Value="{Binding MaxErlaubteDistanzInMeter}" />
+                        <Entry Grid.Column="1" 
+                               Text="{Binding MaxErlaubteDistanzInMeter, Mode=TwoWay}" 
+                               Keyboard="Numeric" 
+                               MaxLength="5" />
+                    </Grid>
+                </VerticalStackLayout>
+            </toolkit:Expander>
+
+            
+            <Border Style="{StaticResource SortBorder}">
+                <HorizontalStackLayout Style="{StaticResource SortContainerStyle}">
+                    <Label Text="Sortieren nach:" Style="{StaticResource SortLabelStyle}" />
+                    <Picker ItemsSource="{Binding SortOptions}"
+                            SelectedItem="{Binding ChosenSort}"
+                            Style="{StaticResource SortPickerStyle}" />
+                </HorizontalStackLayout>
+            </Border>
+            
+        </VerticalStackLayout>
+
+        <CollectionView Grid.Row="1" ItemsSource="{Binding ParkHaeuser}"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedParkHaus}"
+                        SelectionChangedCommand="{Binding GoToParkDetailCommand}"
+                        SelectionChangedCommandParameter="{Binding SelectedParkHaus}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="Models:ParkHaus">
+
+                    <Border Style="{StaticResource MainPageParkHausInfoBox}">
+                        <VerticalStackLayout>
+                            <Grid ColumnDefinitions="*, Auto" ColumnSpacing="20">
+
+                                <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                                    <Label Text="{Binding ParkHausName}" 
+                                   Style="{StaticResource ParkHausNameStyle}" />
+
+                                    <Label Text="{Binding Distanz, StringFormat='Distanz: {0} m'}" 
+                                   Style="{StaticResource ParkHausInfosStyle}" />
+
+                                    <Label Text="{Binding VerfuegbarePlaetze, StringFormat='Freie Parkplätze: {0}'}" 
+                                   Style="{StaticResource ParkHausInfosStyle}" />
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                    <Label Text="{Binding PreisKlasse.StartPreis, StringFormat='Einfahrtstarif: {0:N2}.-'}" 
+                                   Style="{StaticResource ParkHausInfosStyle}" />
+
+                                    <Label Text="{Binding PreisKlasse.PreisProStunde, StringFormat='Stundentarif: {0:N2}'}" 
+                                   Style="{StaticResource ParkHausInfosStyle}" />
+
+                                    <Label Text="{Binding PreisKlasse.MaximalPreis, StringFormat='Tagespauschale: {0:N2}.-'}" 
+                                   Style="{StaticResource ParkHausInfosStyle}" />
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <Button Text="Zur Karte" 
+                                    Command="{Binding Source={x:Reference thisPage}, Path=BindingContext.OpenMapsCommand}"
+                                    CommandParameter="{Binding MapsLink}"
+                                    Style="{StaticResource MapButtonStyle}" 
+                                    HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                        
+                    </Border>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid> 
+
+    
+</ContentPage>

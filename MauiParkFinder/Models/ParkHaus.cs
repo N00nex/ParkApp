@@ -3,13 +3,18 @@
     public class ParkHaus
     {
         public Guid Id { get; set; }
-        public string ParkHausName { get; set; }
+        public String ParkHausName { get; set; }
         public int Distanz { get; set; }
         public int VerfuegbarePlaetze { get; set; }
-        public string MapsLink { get; set; }
+
+        public String MapsLink { get; set; }
+
         public Guid PreisKlasseID { get; set; }
-        
-       
+
+        public Guid AddressID { get; set; }
+
+        public List<BetriebsZeit> BetriebsZeit { get; set; } = new();
         public PreisKlasse PreisKlasse { get; set; }
+        public Address Address { get; set; }
     }
 }

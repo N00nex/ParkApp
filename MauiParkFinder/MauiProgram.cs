@@ -1,6 +1,8 @@
-﻿using MauiParkFinder.Services;
+﻿using CommunityToolkit.Maui; 
+using MauiParkFinder.Services;
 using MauiParkFinder.ViewModels;
 using Microsoft.Extensions.Logging;
+using MauiParkFinder.Views;
 
 namespace MauiParkFinder
 {
@@ -11,6 +13,7 @@ namespace MauiParkFinder
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -19,12 +22,15 @@ namespace MauiParkFinder
            
             builder.Services.AddSingleton<ParkFinderService>();
             builder.Services.AddTransient<ParkFinderViewModel>();
+            builder.Services.AddTransient<ParkDetailsViewModel>();
+            builder.Services.AddTransient<ParkDetailPage>();
             builder.Services.AddTransient<MainPage>();
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
+
         }
     }
 }

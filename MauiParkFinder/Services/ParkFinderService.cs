@@ -24,7 +24,7 @@ namespace MauiParkFinder.Services
             _httpClient = new HttpClient(handler)
             {
                 BaseAddress = new Uri(BaseUrl),
-                Timeout = TimeSpan.FromSeconds(10) 
+                //Timeout = TimeSpan.FromSeconds(10) 
             };
         }
 

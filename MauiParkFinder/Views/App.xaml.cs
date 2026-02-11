@@ -1,4 +1,4 @@
-﻿namespace MauiParkFinder
+﻿namespace MauiParkFinder.Views
 {
     public partial class App : Application
     {

@@ -1,35 +1,83 @@
 --Create Database ParkFinder;
+--USE ParkFinder;
 
---Use ParkFinder;
+
+DROP TABLE IF EXISTS BetriebsZeit;
+DROP TABLE IF EXISTS ParkHaus;
+DROP TABLE IF EXISTS [Address];
+DROP TABLE IF EXISTS PreisKlasse;
+
 
 CREATE TABLE PreisKlasse (
-    Id UNIQUEIDENTIFIER PRIMARY KEY,
+    Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
     StartPreis DECIMAL(18, 2) NOT NULL,
     MaximalPreis DECIMAL(18, 2) NOT NULL,
     PreisProStunde DECIMAL(18, 2) NOT NULL
 );
 
+CREATE TABLE [Address] (
+    Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    City VARCHAR(80) NOT NULL,
+    PostalCode CHAR(4) NOT NULL,
+    Street VARCHAR(80) NOT NULL,
+    StreetNumber VARCHAR(10) NOT NULL 
+);
 
 CREATE TABLE ParkHaus (
-    Id UNIQUEIDENTIFIER PRIMARY KEY,
+    Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
     ParkHausName VARCHAR(80) NOT NULL,
     Distanz INT NOT NULL,
     VerfuegbarePlaetze INT NOT NULL,
-    MapsLink NVARCHAR(255),
-    PreisID UNIQUEIDENTIFIER NOT NULL,
+    MapsLink NVARCHAR(MAX) NOT NULL,
+    PreisKlasseID UNIQUEIDENTIFIER NOT NULL,
+    AddressID UNIQUEIDENTIFIER NOT NULL,
+    
+    CONSTRAINT FK_ParkHaus_PreisKlasse FOREIGN KEY (PreisKlasseID) REFERENCES PreisKlasse(Id),
+    CONSTRAINT FK_ParkHaus_Address FOREIGN KEY (AddressID) REFERENCES [Address](Id)
+);
 
-    CONSTRAINT FK_ParkHaus_PreisKlasse FOREIGN KEY (PreisID)
-        REFERENCES PreisKlasse(Id)
+CREATE TABLE BetriebsZeit (
+    Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    ParkhausId UNIQUEIDENTIFIER NOT NULL, 
+    TagVon INT NOT NULL,  
+    TagBis INT NOT NULL,  
+    OeffnetUm TIME(0) NOT NULL,
+    SchliesstUm TIME(0) NOT NULL,
+
+    CONSTRAINT FK_BetriebsZeit_ParkHaus FOREIGN KEY (ParkhausId) REFERENCES ParkHaus(Id) ON DELETE CASCADE
 );
 
 
+DECLARE @pk1 UNIQUEIDENTIFIER = NEWID();
+DECLARE @ad1 UNIQUEIDENTIFIER = NEWID();
+DECLARE @ph1 UNIQUEIDENTIFIER = NEWID();
+
 INSERT INTO PreisKlasse (Id, StartPreis, MaximalPreis, PreisProStunde)
-VALUES 
-    ('f47ac10b-58cc-4372-a567-0e02b2c3d479', 2.50, 25.00, 1.50),
-    ('f47ac10b-58cc-4372-a567-0e02b2000000', 3.00, 30.00, 2.00);
+VALUES (@pk1, 3.00, 30.00, 2.00);
+
+INSERT INTO [Address] (Id, City, PostalCode, Street, StreetNumber)
+VALUES (@ad1, 'Basel', '4052', 'St. Jakob-Strasse', '395');
+
+INSERT INTO ParkHaus (Id, ParkHausName, Distanz, VerfuegbarePlaetze, MapsLink, PreisKlasseID, AddressID)
+VALUES (@ph1, 'St. Jakob-Park', 50, 500, 'https://www.google.com/maps/search/?api=1&query=St.+Jakob-Park+Basel', @pk1, @ad1);
+
+INSERT INTO BetriebsZeit (ParkhausId, TagVon, TagBis, OeffnetUm, SchliesstUm)
+VALUES (@ph1, 1, 7, '00:00:00', '23:59:59'); -- 24/7 offen
 
 
-INSERT INTO ParkHaus (ParkHausName, Distanz, VerfuegbarePlaetze, MapsLink, PreisID)
-VALUES 
-    ('City Parking Nord', 450, 120, 'http://maps.google.com/1', 'f47ac10b-58cc-4372-a567-0e02b2c3d479'),
-    ('Basel Beispiel2', 300, 40, 'http://maps.google.com/2', 'f47ac10b-58cc-4372-a567-0e02b2000000');
+
+DECLARE @pk2 UNIQUEIDENTIFIER = NEWID();
+DECLARE @ad2 UNIQUEIDENTIFIER = NEWID();
+DECLARE @ph2 UNIQUEIDENTIFIER = NEWID();
+
+INSERT INTO PreisKlasse (Id, StartPreis, MaximalPreis, PreisProStunde)
+VALUES (@pk2, 1.50, 18.00, 1.20);
+
+INSERT INTO [Address] (Id, City, PostalCode, Street, StreetNumber)
+VALUES (@ad2, 'Zürich', '8048', 'Altstetterstrasse', '150');
+
+INSERT INTO ParkHaus (Id, ParkHausName, Distanz, VerfuegbarePlaetze, MapsLink, PreisKlasseID, AddressID)
+VALUES (@ph2, 'Zürich Altstetten', 200, 45, 'https://www.google.com/maps/search/?api=1&query=Zürich+Altstetten+Bahnhof', @pk2, @ad2);
+
+INSERT INTO BetriebsZeit (ParkhausId, TagVon, TagBis, OeffnetUm, SchliesstUm)
+VALUES (@ph2, 1, 7, '00:00:00', '23:59:59');

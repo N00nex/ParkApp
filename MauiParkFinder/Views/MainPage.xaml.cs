@@ -1,6 +1,6 @@
 ﻿using MauiParkFinder.ViewModels;
 
-namespace MauiParkFinder
+namespace MauiParkFinder.Views
 {
     public partial class MainPage : ContentPage
     {
