@@ -3,8 +3,8 @@
     public enum SortOption
     {
         Distanz,
-        StartPreis,
-        PreisProStunde,
-        MaximalPreis
+        Einfahrtstarif,
+        Stundentarif,
+        TagesPauschale
     }
 }

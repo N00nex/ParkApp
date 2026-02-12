@@ -9,7 +9,7 @@ namespace MauiParkFinder.Services
         private readonly HttpClient _httpClient;
         
         
-        private static string BaseUrl = DeviceInfo.Platform == DevicePlatform.Android 
+        private static readonly string _BaseUrl = DeviceInfo.Platform == DevicePlatform.Android 
             ? "http://10.0.2.2:60002/api/" 
             : "http://localhost:60002/api/";
 
@@ -23,27 +23,25 @@ namespace MauiParkFinder.Services
 
             _httpClient = new HttpClient(handler)
             {
-                BaseAddress = new Uri(BaseUrl),
-                //Timeout = TimeSpan.FromSeconds(10) 
+                BaseAddress = new Uri(_BaseUrl),
             };
         }
 
-        public async Task<List<ParkHaus>> GetParkHaeuserAsync()
+        public async Task<List<ParkingGarage>> GetParkingGarageAsync()
         {
             try
             {
-                // Ensure the casing matches your Controller name exactly
-                var response = await _httpClient.GetAsync("ParkHaus");
+                var response = await _httpClient.GetAsync("ParkingGarage");
                 if (response.IsSuccessStatusCode)
                 {
-                    return await response.Content.ReadFromJsonAsync<List<ParkHaus>>();
+                    return await response.Content.ReadFromJsonAsync<List<ParkingGarage>>();
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"API ERROR: {ex.Message}");
             }
-            return new List<ParkHaus>();
+            return new List<ParkingGarage>();
         }
 
     }

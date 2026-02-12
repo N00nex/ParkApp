@@ -9,12 +9,12 @@ namespace MauiParkFinder.ViewModels;
 public partial class ParkFinderViewModel : BaseViewModel
 {
     private readonly ParkFinderService _service;
-    private List<ParkHaus> _datenSätzeParkFinder = new();
+    private List<ParkingGarage> _allParkingGarages = new();
 
-    public ObservableCollection<ParkHaus> ParkHaeuser { get; } = new();
+    public ObservableCollection<ParkingGarage> ParkingGarages { get; } = new();
 
     [ObservableProperty]
-    private ParkHaus _selectedParkHaus;
+    private ParkingGarage _selectedParkingGarage;
     
     [ObservableProperty]
     private SortOption _chosenSort = SortOption.Distanz;
@@ -23,7 +23,7 @@ public partial class ParkFinderViewModel : BaseViewModel
     public int MaxDistance { get; } = 50000;
 
 
-    partial void OnChosenSortChanged(SortOption value) => Filtern();
+    partial void OnChosenSortChanged(SortOption value) => Filter();
 
     public List<SortOption> SortOptions { get; } = Enum.GetValues<SortOption>().ToList();
 
@@ -35,71 +35,71 @@ public partial class ParkFinderViewModel : BaseViewModel
     [RelayCommand]
     public async Task LoadDataAsync()
     {
-        _datenSätzeParkFinder = await _service.GetParkHaeuserAsync();
-        Filtern();
+        _allParkingGarages = await _service.GetParkingGarageAsync();
+        Filter();
     }
 
     [ObservableProperty]
-    private int _maxErlaubteDistanzInMeter = 15000;
+    private int _maxAllowedDistanceInMeters = 15000;
 
     [ObservableProperty]
-    private bool _nurFreiePlätze;
+    private bool _onlyAvailableSpaces;
 
     [ObservableProperty]    
     private bool _onlyOpen;
 
-    partial void OnNurFreiePlätzeChanged(bool value) => Filtern();
-    partial void OnMaxErlaubteDistanzInMeterChanged(int value)
+    partial void OnOnlyAvailableSpacesChanged(bool value) => Filter();
+    partial void OnMaxAllowedDistanceInMetersChanged(int value)
     {
         // Wert auf gültigen Bereich begrenzen
         if (value > MaxDistance)
         {
-            MaxErlaubteDistanzInMeter = MaxDistance;
+            MaxAllowedDistanceInMeters = MaxDistance;
             return;
         }
         if (value < MinDistance)
         {
-            MaxErlaubteDistanzInMeter = MinDistance;
+            MaxAllowedDistanceInMeters = MinDistance;
             return;
         }
 
-        Filtern();
+        Filter();
     }
 
-    private void Filtern()
+    private void Filter()
     {
-        var sortierenResultat = _datenSätzeParkFinder.Where(p => p.Distanz <= _maxErlaubteDistanzInMeter);
+        var filteredResult = _allParkingGarages.Where(p => p.Distance <= _maxAllowedDistanceInMeters);
 
-        if (_nurFreiePlätze == true)
+        if (_onlyAvailableSpaces == true)
         {
-            sortierenResultat = sortierenResultat.Where(p => p.VerfuegbarePlaetze > 0);
+            filteredResult = filteredResult.Where(p => p.AvailableSpaces > 0);
         }
 
         
         var sortedList = _chosenSort switch
         {
-            SortOption.StartPreis => sortierenResultat.OrderBy(x => x.PreisKlasse?.StartPreis ?? decimal.MaxValue),
-            SortOption.PreisProStunde => sortierenResultat.OrderBy(x => x.PreisKlasse?.PreisProStunde ?? decimal.MaxValue),
-            SortOption.MaximalPreis => sortierenResultat.OrderBy(x => x.PreisKlasse?.MaximalPreis ?? decimal.MaxValue),
-            _ => sortierenResultat.OrderBy(x => x.Distanz)
+            SortOption.Einfahrtstarif => filteredResult.OrderBy(x => x.Price?.Entrance ?? decimal.MaxValue),
+            SortOption.Stundentarif => filteredResult.OrderBy(x => x.Price?.PerHour ?? decimal.MaxValue),
+            SortOption.TagesPauschale => filteredResult.OrderBy(x => x.Price?.MaxDaily ?? decimal.MaxValue),
+            _ => filteredResult.OrderBy(x => x.Distance)
         };
 
-        ParkHaeuser.Clear();
+        ParkingGarages.Clear();
         foreach (var p in sortedList)  
-            ParkHaeuser.Add(p);
+            ParkingGarages.Add(p);
     }
 
     [RelayCommand]
     private async Task GoToParkDetail()
     {
-        if (SelectedParkHaus == null)
+        if (SelectedParkingGarage == null)
             return;
 
         await Shell.Current.GoToAsync(nameof(ParkDetailPage), new Dictionary<string, object>
         {
-            ["SelectedParkHaus"] = SelectedParkHaus
+            ["SelectedParkingGarage"] = SelectedParkingGarage
         });
 
-        SelectedParkHaus = null;
+        SelectedParkingGarage = null;
     }
 }

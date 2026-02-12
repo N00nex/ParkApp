@@ -22,23 +22,23 @@
 
                 <VerticalStackLayout Style="{StaticResource FilterVStackLayoutStyle}">
                     <HorizontalStackLayout Style="{StaticResource FilterHStackLayoutStyle}">
-                        <CheckBox IsChecked="{Binding NurFreiePlätze}" />
+                        <CheckBox IsChecked="{Binding OnlyAvailableSpaces}" />
                         <Label Style="{StaticResource FilterLabelStyle}" Text="Nur Parkplätze mit freien Plätzen anzeigen"  />
                     </HorizontalStackLayout>
 
                     <HorizontalStackLayout Style="{StaticResource FilterHStackLayoutStyle}">
                         <CheckBox />
-                        <Label Style="{StaticResource FilterLabelStyle}" Text="Nur Offene Parkmglichkeiten Anzeigen"  />
+                        <Label Style="{StaticResource FilterLabelStyle}" Text="Nur nicht Geschlossene Parkmöglichkeiten Anzeigen"  />
                     </HorizontalStackLayout>
 
-                    <Label Text="{Binding MaxErlaubteDistanzInMeter, StringFormat='Max. Distanz: {0:F0} m'}" />
+                    <Label Text="{Binding MaxAllowedDistanceInMeters, StringFormat='Max. Distanz: {0:F0} m'}" />
                     <Grid ColumnDefinitions="*, 80">
                         <Slider Grid.Column="0" 
                                 Maximum="{Binding MaxDistance}" 
                                 Minimum="{Binding MinDistance}" 
-                                Value="{Binding MaxErlaubteDistanzInMeter}" />
+                                Value="{Binding MaxAllowedDistanceInMeters}" />
                         <Entry Grid.Column="1" 
-                               Text="{Binding MaxErlaubteDistanzInMeter, Mode=TwoWay}" 
+                               Text="{Binding MaxAllowedDistanceInMeters, Mode=TwoWay}" 
                                Keyboard="Numeric" 
                                MaxLength="5" />
                     </Grid>
@@ -54,41 +54,51 @@
                             Style="{StaticResource SortPickerStyle}" />
                 </HorizontalStackLayout>
             </Border>
+
             
+            <Label Text="Für Weitere Informationen drücken Sie auf ein Parkhaus." FontSize="11" FontAttributes="Bold" TextColor="Gray" Margin="10"/>
+            
+
         </VerticalStackLayout>
+        
+       
 
-        <CollectionView Grid.Row="1" ItemsSource="{Binding ParkHaeuser}"
+            <CollectionView Grid.Row="1" ItemsSource="{Binding ParkingGarages}"
                         SelectionMode="Single"
-                        SelectedItem="{Binding SelectedParkHaus}"
+                        SelectedItem="{Binding SelectedParkingGarage}"
                         SelectionChangedCommand="{Binding GoToParkDetailCommand}"
-                        SelectionChangedCommandParameter="{Binding SelectedParkHaus}">
+                        SelectionChangedCommandParameter="{Binding SelectedParkingGarage}">
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="Models:ParkHaus">
+                <DataTemplate x:DataType="Models:ParkingGarage">
 
-                    <Border Style="{StaticResource MainPageParkHausInfoBox}">
+                    <Border Style="{StaticResource MainPageParkingGarageInfoBox}">
+                        
                         <VerticalStackLayout>
+                            <Label Text="{Binding PGName}" 
+                                Style="{StaticResource ParkingGarageNameStyle}" />
                             <Grid ColumnDefinitions="*, Auto" ColumnSpacing="20">
 
                                 <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
-                                    <Label Text="{Binding ParkHausName}" 
-                                   Style="{StaticResource ParkHausNameStyle}" />
 
-                                    <Label Text="{Binding Distanz, StringFormat='Distanz: {0} m'}" 
-                                   Style="{StaticResource ParkHausInfosStyle}" />
+                                    <Label Text="Status: Offen" 
+                                    Style="{StaticResource ParkingGarageInfosStyle}" />
 
-                                    <Label Text="{Binding VerfuegbarePlaetze, StringFormat='Freie Parkplätze: {0}'}" 
-                                   Style="{StaticResource ParkHausInfosStyle}" />
+                                    <Label Text="{Binding Distance, StringFormat='Distanz: {0} m'}" 
+                                    Style="{StaticResource ParkingGarageInfosStyle}" />
+                                    
+                                    <Label Text="{Binding AvailableSpaces, StringFormat='Freie Parkplätze: {0}'}" 
+                                   Style="{StaticResource ParkingGarageInfosStyle}" />
                                 </VerticalStackLayout>
 
                                 <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
-                                    <Label Text="{Binding PreisKlasse.StartPreis, StringFormat='Einfahrtstarif: {0:N2}.-'}" 
-                                   Style="{StaticResource ParkHausInfosStyle}" />
+                                    <Label Text="{Binding Price.Entrance, StringFormat='Einfahrtstarif: {0:N2}.-'}" 
+                                   Style="{StaticResource ParkingGarageInfosStyle}" />
 
-                                    <Label Text="{Binding PreisKlasse.PreisProStunde, StringFormat='Stundentarif: {0:N2}'}" 
-                                   Style="{StaticResource ParkHausInfosStyle}" />
+                                    <Label Text="{Binding Price.PerHour, StringFormat='Stundentarif: {0:N2}'}" 
+                                   Style="{StaticResource ParkingGarageInfosStyle}" />
 
-                                    <Label Text="{Binding PreisKlasse.MaximalPreis, StringFormat='Tagespauschale: {0:N2}.-'}" 
-                                   Style="{StaticResource ParkHausInfosStyle}" />
+                                    <Label Text="{Binding Price.MaxDaily, StringFormat='Tagespauschale: {0:N2}.-'}" 
+                                   Style="{StaticResource ParkingGarageInfosStyle}" />
                                 </VerticalStackLayout>
                             </Grid>
 

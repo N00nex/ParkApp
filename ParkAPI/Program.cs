@@ -4,19 +4,14 @@ using ParkAPI.Models;
 using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OData.ModelBuilder;
-using Microsoft.OpenApi.Models;
-using System;
-using System.Net;
-using System.Text;
-using Microsoft.EntityFrameworkCore.SqlServer; // Hinzugefügt für UseSqlServer-Erweiterungsmethode
 
 var builder = WebApplication.CreateBuilder(args);
 
 var modelBuilder = new ODataConventionModelBuilder();
 
 string connectionString = builder.Configuration.GetConnectionString("ParkFinder");
-modelBuilder.EntitySet<ParkHaus>("ParkHaus");
-modelBuilder.EntitySet<PreisKlasse>("PreisKlasse");
+modelBuilder.EntitySet<ParkingGarage>("ParkHaus");
+
 
 builder.Services.AddControllers().AddOData(options =>
     options.Select().Filter().Expand().Count().OrderBy()
@@ -36,7 +31,7 @@ var app = builder.Build();
 
 DatabaseHelper.Initialize(app.Services);
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseSwagger();
 

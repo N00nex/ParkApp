@@ -1,18 +1,13 @@
---Create Database ParkFinder;
---USE ParkFinder;
-
-
-DROP TABLE IF EXISTS BetriebsZeit;
-DROP TABLE IF EXISTS ParkHaus;
+DROP TABLE IF EXISTS OpeningHours;
+DROP TABLE IF EXISTS ParkingGarage;
 DROP TABLE IF EXISTS [Address];
-DROP TABLE IF EXISTS PreisKlasse;
+DROP TABLE IF EXISTS Price;
 
-
-CREATE TABLE PreisKlasse (
+CREATE TABLE Price (
     Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
-    StartPreis DECIMAL(18, 2) NOT NULL,
-    MaximalPreis DECIMAL(18, 2) NOT NULL,
-    PreisProStunde DECIMAL(18, 2) NOT NULL
+    Entrance DECIMAL(18, 2) NOT NULL,
+    MaxDaily DECIMAL(18, 2) NOT NULL,
+    PerHour DECIMAL(18, 2) NOT NULL
 );
 
 CREATE TABLE [Address] (
@@ -23,61 +18,114 @@ CREATE TABLE [Address] (
     StreetNumber VARCHAR(10) NOT NULL 
 );
 
-CREATE TABLE ParkHaus (
+CREATE TABLE ParkingGarage (
     Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
-    ParkHausName VARCHAR(80) NOT NULL,
-    Distanz INT NOT NULL,
-    VerfuegbarePlaetze INT NOT NULL,
+    PGName VARCHAR(80) NOT NULL,
+    Distance INT NOT NULL,
+    AvailableSpaces INT NOT NULL,
     MapsLink NVARCHAR(MAX) NOT NULL,
-    PreisKlasseID UNIQUEIDENTIFIER NOT NULL,
+    PriceID UNIQUEIDENTIFIER NOT NULL,
     AddressID UNIQUEIDENTIFIER NOT NULL,
     
-    CONSTRAINT FK_ParkHaus_PreisKlasse FOREIGN KEY (PreisKlasseID) REFERENCES PreisKlasse(Id),
-    CONSTRAINT FK_ParkHaus_Address FOREIGN KEY (AddressID) REFERENCES [Address](Id)
+    CONSTRAINT FK_ParkingGarage_Price FOREIGN KEY (PriceID) REFERENCES Price(Id),
+    CONSTRAINT FK_ParkingGarage_Address FOREIGN KEY (AddressID) REFERENCES [Address](Id)
 );
 
-CREATE TABLE BetriebsZeit (
+CREATE TABLE OpeningHours (
     Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
-    ParkhausId UNIQUEIDENTIFIER NOT NULL, 
-    TagVon INT NOT NULL,  
-    TagBis INT NOT NULL,  
-    OeffnetUm TIME(0) NOT NULL,
-    SchliesstUm TIME(0) NOT NULL,
+    ParkingGarageId UNIQUEIDENTIFIER NOT NULL, -- War im Entwurf oben vergessen
+    OpenMonFri TIME(0),
+    CloseMonFri TIME(0),
+    OpenSatSun TIME(0),
+    CloseSatSun TIME(0),
 
-    CONSTRAINT FK_BetriebsZeit_ParkHaus FOREIGN KEY (ParkhausId) REFERENCES ParkHaus(Id) ON DELETE CASCADE
+    CONSTRAINT FK_OpeningHours_ParkingGarage FOREIGN KEY (ParkingGarageId) REFERENCES ParkingGarage(Id) ON DELETE CASCADE
 );
 
 
-DECLARE @pk1 UNIQUEIDENTIFIER = NEWID();
-DECLARE @ad1 UNIQUEIDENTIFIER = NEWID();
-DECLARE @ph1 UNIQUEIDENTIFIER = NEWID();
 
-INSERT INTO PreisKlasse (Id, StartPreis, MaximalPreis, PreisProStunde)
-VALUES (@pk1, 3.00, 30.00, 2.00);
+-- Insert von Datensätzen für die App. Werte sind zum grössten Teil fiktiv aus Einfachheitsgründen
 
-INSERT INTO [Address] (Id, City, PostalCode, Street, StreetNumber)
-VALUES (@ad1, 'Basel', '4052', 'St. Jakob-Strasse', '395');
+DECLARE @pId UNIQUEIDENTIFIER, @aId UNIQUEIDENTIFIER, @gId UNIQUEIDENTIFIER;
 
-INSERT INTO ParkHaus (Id, ParkHausName, Distanz, VerfuegbarePlaetze, MapsLink, PreisKlasseID, AddressID)
-VALUES (@ph1, 'St. Jakob-Park', 50, 500, 'https://www.google.com/maps/search/?api=1&query=St.+Jakob-Park+Basel', @pk1, @ad1);
-
-INSERT INTO BetriebsZeit (ParkhausId, TagVon, TagBis, OeffnetUm, SchliesstUm)
-VALUES (@ph1, 1, 7, '00:00:00', '23:59:59'); -- 24/7 offen
+-- 1. ELISABETHEN
+SET @pId = NEWID(); SET @aId = NEWID(); SET @gId = NEWID();
+INSERT INTO Price (Id, Entrance, MaxDaily, PerHour) VALUES (@pId, 2.50, 25.00, 3.50);
+INSERT INTO [Address] (Id, City, PostalCode, Street, StreetNumber) VALUES (@aId, 'Basel', '4051', 'Steinentorberg', '5');
+INSERT INTO ParkingGarage (Id, PGName, Distance, AvailableSpaces, MapsLink, PriceID, AddressID) 
+VALUES (@gId, 'Elisabethen', 1600, 800, 'https://www.google.com/maps/search/?api=1&query=Parkhaus+Elisabethen+Steinentorberg+5+Basel, @pId, @aId);
+INSERT INTO OpeningHours (ParkingGarageId, OpenMonFri, CloseMonFri, OpenSatSun, CloseSatSun) VALUES (@gId, '00:00:00', '23:59:59', '00:00:00', '23:59:59');
 
 
 
-DECLARE @pk2 UNIQUEIDENTIFIER = NEWID();
-DECLARE @ad2 UNIQUEIDENTIFIER = NEWID();
-DECLARE @ph2 UNIQUEIDENTIFIER = NEWID();
+-- 2. STORCHEN
+SET @pId = NEWID(); SET @aId = NEWID(); SET @gId = NEWID();
+INSERT INTO Price (Id, Entrance, MaxDaily, PerHour) VALUES (@pId, 3.00, 40.00, 4.00);
+INSERT INTO [Address] (Id, City, PostalCode, Street, StreetNumber) VALUES (@aId, 'Basel', '4051', 'Fischmarkt', '10');
+INSERT INTO ParkingGarage (Id, PGName, Distance, AvailableSpaces, MapsLink, PriceID, AddressID) 
+VALUES (@gId, 'Storchen', 3900, 250, 'https://www.google.com/maps/search/?api=1&query=Parkhaus+Storchen+Fischmarkt+10+Basel', @pId, @aId);
+INSERT INTO OpeningHours (ParkingGarageId, OpenMonFri, CloseMonFri, OpenSatSun, CloseSatSun) VALUES (@gId, '00:00:00', '23:59:59', '00:00:00', '23:59:59');
 
-INSERT INTO PreisKlasse (Id, StartPreis, MaximalPreis, PreisProStunde)
-VALUES (@pk2, 1.50, 18.00, 1.20);
+-- 3. STEINEN
+SET @pId = NEWID(); SET @aId = NEWID(); SET @gId = NEWID();
+INSERT INTO Price (Id, Entrance, MaxDaily, PerHour) VALUES (@pId, 2.00, 30.00, 3.00);
+INSERT INTO [Address] (Id, City, PostalCode, Street, StreetNumber) VALUES (@aId, 'Basel', '4051', 'Steinenschanze', '5');
+INSERT INTO ParkingGarage (Id, PGName, Distance, AvailableSpaces, MapsLink, PriceID, AddressID) 
+VALUES (@gId, 'Steinen', 1900, 550, 'https://www.google.com/maps/search/?api=1&query=Parkhaus+Steinen+Steinenschanze+5+Basel', @pId, @aId);
+INSERT INTO OpeningHours (ParkingGarageId, OpenMonFri, CloseMonFri, OpenSatSun, CloseSatSun) VALUES (@gId, '00:00:00', '23:59:59', '00:00:00', '23:59:59');
 
-INSERT INTO [Address] (Id, City, PostalCode, Street, StreetNumber)
-VALUES (@ad2, 'Zürich', '8048', 'Altstetterstrasse', '150');
+-- 4. BAD. BAHNHOF
+SET @pId = NEWID(); SET @aId = NEWID(); SET @gId = NEWID();
+INSERT INTO Price (Id, Entrance, MaxDaily, PerHour) VALUES (@pId, 1.50, 20.00, 2.50);
+INSERT INTO [Address] (Id, City, PostalCode, Street, StreetNumber) VALUES (@aId, 'Basel', '4058', 'Schwarzwaldstrasse', '160');
+INSERT INTO ParkingGarage (Id, PGName, Distance, AvailableSpaces, MapsLink, PriceID, AddressID) 
+VALUES (@gId, 'Bad. Bahnhof', 2900, 400, 'https://www.google.com/maps/search/?api=1&query=Parkhaus+Badischer+Bahnhof+Schwarzwaldstrasse+160+Basel', @pId, @aId);
+INSERT INTO OpeningHours (ParkingGarageId, OpenMonFri, CloseMonFri, OpenSatSun, CloseSatSun) VALUES (@gId, '00:00:00', '23:59:59', '00:00:00', '23:59:59');
 
-INSERT INTO ParkHaus (Id, ParkHausName, Distanz, VerfuegbarePlaetze, MapsLink, PreisKlasseID, AddressID)
-VALUES (@ph2, 'Zürich Altstetten', 200, 45, 'https://www.google.com/maps/search/?api=1&query=Zürich+Altstetten+Bahnhof', @pk2, @ad2);
+-- 5. MESSE
+SET @pId = NEWID(); SET @aId = NEWID(); SET @gId = NEWID();
+INSERT INTO Price (Id, Entrance, MaxDaily, PerHour) VALUES (@pId, 4.00, 45.00, 5.00);
+INSERT INTO [Address] (Id, City, PostalCode, Street, StreetNumber) VALUES (@aId, 'Basel', '4058', 'Riehenstrasse', '101');
+INSERT INTO ParkingGarage (Id, PGName, Distance, AvailableSpaces, MapsLink, PriceID, AddressID) 
+VALUES (@gId, 'Messe', 1600, 1200, 'https://www.google.com/maps/search/?api=1&query=Parkhaus+Messe+Riehenstrasse+101+Basel', @pId, @aId);
+INSERT INTO OpeningHours (ParkingGarageId, OpenMonFri, CloseMonFri, OpenSatSun, CloseSatSun) VALUES (@gId, '00:00:00', '23:59:59', '00:00:00', '23:59:59');
 
-INSERT INTO BetriebsZeit (ParkhausId, TagVon, TagBis, OeffnetUm, SchliesstUm)
-VALUES (@ph2, 1, 7, '00:00:00', '23:59:59');
+-- 6. EUROPE
+SET @pId = NEWID(); SET @aId = NEWID(); SET @gId = NEWID();
+INSERT INTO Price (Id, Entrance, MaxDaily, PerHour) VALUES (@pId, 2.00, 28.00, 3.20);
+INSERT INTO [Address] (Id, City, PostalCode, Street, StreetNumber) VALUES (@aId, 'Basel', '4058', 'Hammerstrasse', '68');
+INSERT INTO ParkingGarage (Id, PGName, Distance, AvailableSpaces, MapsLink, PriceID, AddressID) 
+VALUES (@gId, 'Europe', 2400, 150, 'https://www.google.com/maps/search/?api=1&query=Parkhaus+Europe+Hammerstrasse+68+Basel', @pId, @aId);
+INSERT INTO OpeningHours (ParkingGarageId, OpenMonFri, CloseMonFri, OpenSatSun, CloseSatSun) VALUES (@gId, '06:00:00', '22:00:00', '08:00:00', '20:00:00');
+
+-- 7. POST
+SET @pId = NEWID(); SET @aId = NEWID(); SET @gId = NEWID();
+INSERT INTO Price (Id, Entrance, MaxDaily, PerHour) VALUES (@pId, 2.50, 32.00, 3.50);
+INSERT INTO [Address] (Id, City, PostalCode, Street, StreetNumber) VALUES (@aId, 'Basel', '4052', 'Gartenstrasse', '143');
+INSERT INTO ParkingGarage (Id, PGName, Distance, AvailableSpaces, MapsLink, PriceID, AddressID) 
+VALUES (@gId, 'Post', 1100, 300, 'https://www.google.com/maps/search/?api=1&query=Parkhaus+Post+Gartenstrasse+143+Basel', @pId, @aId);
+INSERT INTO OpeningHours (ParkingGarageId, OpenMonFri, CloseMonFri, OpenSatSun, CloseSatSun) VALUES (@gId, '00:00:00', '23:59:59', '00:00:00', '23:59:59');
+
+-- 8. CENTRALBAHN
+SET @pId = NEWID(); SET @aId = NEWID(); SET @gId = NEWID();
+INSERT INTO Price (Id, Entrance, MaxDaily, PerHour) VALUES (@pId, 3.50, 38.00, 4.20);
+INSERT INTO [Address] (Id, City, PostalCode, Street, StreetNumber) VALUES (@aId, 'Basel', '4052', 'Gartenstrasse', '150');
+INSERT INTO ParkingGarage (Id, PGName, Distance, AvailableSpaces, MapsLink, PriceID, AddressID) 
+VALUES (@gId, 'Centralbahn', 1100, 450, 'https://www.google.com/maps/search/?api=1&query=Parkhaus+Centralbahn+Gartenstrasse+150+Basel', @pId, @aId);
+INSERT INTO OpeningHours (ParkingGarageId, OpenMonFri, CloseMonFri, OpenSatSun, CloseSatSun) VALUES (@gId, '00:00:00', '23:59:59', '00:00:00', '23:59:59');
+
+-- 9. KUNSTMUSEUM
+SET @pId = NEWID(); SET @aId = NEWID(); SET @gId = NEWID();
+INSERT INTO Price (Id, Entrance, MaxDaily, PerHour) VALUES (@pId, 2.80, 35.00, 3.80);
+INSERT INTO [Address] (Id, City, PostalCode, Street, StreetNumber) VALUES (@aId, 'Basel', '4051', 'St. Alban-Graben', '3a');
+INSERT INTO ParkingGarage (Id, PGName, Distance, AvailableSpaces, MapsLink, PriceID, AddressID) 
+VALUES (@gId, 'Kunstmuseum', 1500, 350, 'https://www.google.com/maps/search/?api=1&query=Parkhaus+Kunstmuseum+Basel', @pId, @aId);
+INSERT INTO OpeningHours (ParkingGarageId, OpenMonFri, CloseMonFri, OpenSatSun, CloseSatSun) VALUES (@gId, '00:00:00', '23:59:59', '00:00:00', '23:59:59');
+
+-- 10. REBGASSE
+SET @pId = NEWID(); SET @aId = NEWID(); SET @gId = NEWID();
+INSERT INTO Price (Id, Entrance, MaxDaily, PerHour) VALUES (@pId, 1.80, 24.00, 2.80);
+INSERT INTO [Address] (Id, City, PostalCode, Street, StreetNumber) VALUES (@aId, 'Basel', '4058', 'Rebgasse', '20');
+INSERT INTO ParkingGarage (Id, PGName, Distance, AvailableSpaces, MapsLink, PriceID, AddressID) 
+VALUES (@gId, 'Rebgasse', 2400, 200, 'https://www.google.com/maps/search/?api=1&query=Parkhaus+Rebgasse+Rebgasse+20+Basel', @pId, @aId);
+INSERT INTO OpeningHours (ParkingGarageId, OpenMonFri, CloseMonFri, OpenSatSun, CloseSatSun) VALUES (@gId, '07:00:00', '21:00:00', '08:00:00', '18:00:00');

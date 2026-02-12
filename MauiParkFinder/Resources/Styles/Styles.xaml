@@ -440,9 +440,9 @@
 
 
 
-    <Style x:Key="MainPageParkHausInfoBox" TargetType="Border">
+    <Style x:Key="MainPageParkingGarageInfoBox" TargetType="Border">
         <Setter Property="Stroke" Value="Black" />
-        <Setter Property="BackgroundColor" Value="#101015"/>
+        <Setter Property="BackgroundColor" Value="WhiteSmoke"/>
         <Setter Property="StrokeThickness" Value="1" />
         <Setter Property="HorizontalOptions" Value="Fill" />
         <Setter Property="Padding" Value="20" />
@@ -451,17 +451,17 @@
 
     </Style>
 
-    <Style x:Key="ParkHausNameStyle" TargetType="Label">
+    <Style x:Key="ParkingGarageNameStyle" TargetType="Label">
         <Setter Property="FontSize" Value="24" />
         <Setter Property="Margin" Value="5" />
         <Setter Property="Padding" Value="5, 0, 5, 5" />
         <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="TextColor" Value="WhiteSmoke" />
+        <Setter Property="TextColor" Value="Black" />
     </Style>
 
-    <Style x:Key="ParkHausInfosStyle" TargetType="Label">
+    <Style x:Key="ParkingGarageInfosStyle" TargetType="Label">
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="TextColor" Value="WhiteSmoke"/>
+        <Setter Property="TextColor" Value="Black"/>
         <Setter Property="Margin" Value="5" />
         <Setter Property="Padding" Value="5, 0, 5, 5" />
     </Style>

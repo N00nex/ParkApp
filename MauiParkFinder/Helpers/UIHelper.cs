@@ -15,12 +15,5 @@ public static class UIHelper
         foreach (var item in items)
         collection.Add(item);
     }
-
-    
-    public static string BetriebszeitFormattieren(this BetriebsZeit betriebszeit)
-    {
-        if (betriebszeit == null) return "Geschlossen";
-        return $"{betriebszeit.OeffnetUm:hh\\:mm} - {betriebszeit.SchliesstUm:hh\\:mm}";
-    }
 }
 

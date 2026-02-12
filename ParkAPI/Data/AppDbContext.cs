@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ParkAPI.Models;
-using System.Collections.Generic;
+
 
 namespace ParkAPI.Data
 {
@@ -8,9 +8,9 @@ namespace ParkAPI.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<ParkHaus> ParkHaus { get; set; } = null!;
-        public DbSet<PreisKlasse> PreisKlasse { get; set; } = null!;
-        public DbSet<BetriebsZeit> BetriebsZeit { get; set; } = null!;
+        public DbSet<ParkingGarage> ParkingGarage { get; set; } = null!;
+        public DbSet<Price> Price { get; set; } = null!;
+        public DbSet<OpeningHours> OpeningHours { get; set; } = null!;
         public DbSet<Address> Address { get; set; } = null!;
 
 
