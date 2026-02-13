@@ -4,6 +4,9 @@ Die ParkFinder App ist eine für Android basierte mobile Applikation auf der Par
 
 Bevor man Loslegt
 
+
+Beim Display sind die Variablen "Open" und "Verfügbare Parkplätze" gemockt. 
+
 Vor dem Nutzen der App
 
 Unter ParkApp/DBScript finden Sie den DB Script. Bitte führen Sie diesen in Ihren SSMS aus. Der Connection string ist unter ParkApp/ParkAPI/appesetings.json zu finden. Dieser ist derselbe wie beim E-Shop.

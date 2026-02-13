@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Maui; 
+﻿// Dieses Programm wurde ausschliesslcih von Stefano Milone entwickelt. Alle Rechte vorbehalten.
+using CommunityToolkit.Maui; 
 using MauiParkFinder.Services;
 using MauiParkFinder.ViewModels;
 using Microsoft.Extensions.Logging;
